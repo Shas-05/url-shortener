@@ -13,4 +13,6 @@ async function handleGenerateNewShortUrl(req, res) {
     return res.json({id: shortID});
 }
 
-module.exports
+module.exports = {
+  handleGenerateNewShortUrl,
+};
