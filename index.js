@@ -1,11 +1,22 @@
-const express = require("express")
+const express = require("express");
 const { connectToMongoDB } = require("./connect");
-const urlRoute = require('./routes/url');
-const app = express()
+const urlRoute = require("./routes/url");
+
+const app = express();
 const PORT = 8001;
 
-connectToMongoDB("mongodb://localhost:27017/url-shortener").then(() => {console.log("Connected to MongoDB")});
+// ✅ Middleware (IMPORTANT)
+app.use(express.json());
 
-app.use("/url" ,urlRoute);
+// ✅ Connect to MongoDB
+connectToMongoDB(
+  "mongodb+srv://youtube:shashank2005@cluster0.uua0qbf.mongodb.net/url-shortener",
+)
+  .then(() => console.log("✅ MongoDB Connected"))
+  .catch((err) => console.log("❌ Mongo Error:", err));
 
-app.listen(PORT, () => console.log(`Server started at port: ${PORT}`))
+// ✅ Routes
+app.use("/url", urlRoute);
+
+// ✅ Start server
+app.listen(PORT, () => console.log(`Server started at port: ${PORT}`));
