@@ -4,7 +4,26 @@ const urlRoute = require("./routes/url");
 
 const app = express();
 const PORT = 8001;
+const URL = require("./models/url");
 
+app.get("/:shortID", async (req, res) => {
+  const shortID = req.params.shortID;
+
+  const entry = await URL.findOne({ shortID });
+
+  if (!entry) {
+    return res.status(404).send("URL not found");
+  }
+
+  // Optional: track visit history
+  entry.visitHistory.push({
+    timestamp: Date.now(),
+  });
+
+  await entry.save();
+
+  res.redirect(entry.redirectURL);
+});
 // ✅ Middleware (IMPORTANT)
 app.use(express.json());
 
