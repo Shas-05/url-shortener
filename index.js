@@ -24,6 +24,7 @@ app.get("/:shortID", async (req, res) => {
 
   res.redirect(entry.redirectURL);
 });
+
 // ✅ Middleware (IMPORTANT)
 app.use(express.json());
 
